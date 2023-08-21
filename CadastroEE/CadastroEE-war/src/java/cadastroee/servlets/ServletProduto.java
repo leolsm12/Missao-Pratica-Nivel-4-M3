@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ejb.EJB;
-import cadastroee.controller.ProdutosFacade;
+import cadastroee.controller.ProdutosFacadeLocal;
 import cadastroee.model.Produtos;
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class ServletProduto extends HttpServlet {
     
     @EJB
-    ProdutosFacade facade;
+    ProdutosFacadeLocal facade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,10 +69,14 @@ public class ServletProduto extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Lista de Produtos</title>");
+                out.println("<title>Servlet ServletProduto</title>");
+                // Adicione o estilo CSS inline aqui
+                out.println("<style>");
+                out.println("ul { list-style: none; padding-left: 0; }");
+                out.println("</style>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Lista de Produtos:</h1>");
+                out.println("<h1>Servlet ServletProduto at " + request.getContextPath() + "</h1>");
                 out.println("<ul>");
                 for (Produtos produto : produtos) {
                     out.println("<li>" + produto.getNome() + "</li>");
