@@ -16,13 +16,14 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
             <title>Lista de Produtos</title>
         </head>
-        <body>
-            <h1>Lista de Produtos</h1>
-    <a href="ServletProdutoFC?acao=formIncluir">Novo Produto</a>
-    <table border="1">
-        <tr>
+        <body class="container">
+            <h1>Listagem de Produtos</h1>
+    <a class="btn btn-primary  m-2" href="ServletProdutoFC?acao=formIncluir">Novo Produto</a>
+    <table class="table table-striped" border="1">
+        <tr class="table-dark">
             <th>#</th>
             <th>Nome</th>
             <th>Quantidade</th>
@@ -38,13 +39,14 @@
         <td>${produto.quantidade}</td>
         <td>${produto.precoVenda}</td>
         <td>
-            <a href="ServletProdutoFC?acao=formAlterar&id=${produto.idProduto}">Alterar</a>
-            <a href="ServletProdutoFC?acao=excluir&id=excluir&id=${produto.idProduto}"">Excluir</a>
+            <a class="btn btn-primary  btn-sm" href="ServletProdutoFC?acao=formAlterar&id=${produto.idProduto}">Alterar</a>
+            <a class="btn btn-danger  btn-sm" href="ServletProdutoFC?acao=excluir&id=${produto.idProduto}"">Excluir</a>
         </td>
     </tr>
     </c:forEach>
     
    </table>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>
 

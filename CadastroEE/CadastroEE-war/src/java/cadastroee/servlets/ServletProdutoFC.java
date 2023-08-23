@@ -24,6 +24,8 @@ import java.util.List;
 public class ServletProdutoFC extends HttpServlet {
     @EJB
     ProdutosFacadeLocal facade;
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,6 +37,7 @@ public class ServletProdutoFC extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+               
         
     }
 
@@ -53,6 +56,7 @@ public class ServletProdutoFC extends HttpServlet {
         String acao = request.getParameter("acao");
         String destino = null;
         
+        
         switch (acao) {
             case "listar":
                 List<Produtos> produtos = facade.findAll();
@@ -66,6 +70,7 @@ public class ServletProdutoFC extends HttpServlet {
                 int idAlterar = Integer.parseInt(request.getParameter("id"));
                 Produtos produtoAlterar = facade.find(idAlterar);
                 request.setAttribute("produto", produtoAlterar);
+                             
                 destino = "ProdutoDados.jsp";
                 break;
             case "excluir":
@@ -81,10 +86,8 @@ public class ServletProdutoFC extends HttpServlet {
                 break;
         }
         RequestDispatcher rd = request.getRequestDispatcher(destino);
-        rd.forward(request, response);
-        
+        rd.forward(request, response); 
     }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -115,8 +118,8 @@ public class ServletProdutoFC extends HttpServlet {
                 request.setAttribute("produtos", produtos);
                 
                 break;
-            default:
-                break;
+                
+           
         }
 
         RequestDispatcher rd = request.getRequestDispatcher("ProdutoLista.jsp");

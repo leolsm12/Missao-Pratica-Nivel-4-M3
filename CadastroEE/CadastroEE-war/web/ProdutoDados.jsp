@@ -10,28 +10,33 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">   
     <title>Cadastro de Produto</title>
 </head>
-<body>
-    <h1>Cadastro de Produto</h1>
-    <form action="ServletProdutoFC" method="post">
+<body class="container">
+    <h1>${empty produto ? 'Cadastro de Produto' : 'Dados do produto'}</h1>
+    <form class="form" action="ServletProdutoFC" method="post">
         <input type="hidden" name="acao" value="${not empty produto ? 'alterar' : 'incluir'}">
         
         <c:if test="${not empty produto}">
             <input type="hidden" name="id" value="${produto.idProduto}">
         </c:if>
+        <div class="mb-3">
+            <label class="form-label" for="nome">Nome:</label>
+            <input class="form-control" type="text" id="nome" name="nome" value="${not empty produto ? produto.nome : ''}">
+        </div>
+        <div class="mb-3">    
+            <label class="form-label" for="quantidade">Quantidade:</label>
+            <input class="form-control" type="text" id="quantidade" name="quantidade" value="${not empty produto ? produto.quantidade : ''}">
+        </div> 
+        <div class="mb-3">    
+            <label class="form-label" for="preco">Preço:</label>
+            <input class="form-control" type="text" id="preco" name="preco" value="${not empty produto ? produto.precoVenda : ''}">
+        </div>
+            <br>
         
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" value="${not empty produto ? produto.nome : ''}">
-        
-        <label for="quantidade">Quantidade:</label>
-        <input type="text" id="quantidade" name="quantidade" value="${not empty produto ? produto.quantidade : ''}">
-        
-        <label for="preco">Preço:</label>
-        <input type="text" id="preco" name="preco" value="${not empty produto ? produto.precoVenda : ''}">
-        <br>
-        
-        <input type="submit" value="${not empty produto ? 'Alterar' : 'Incluir'}">
+        <input class="btn  btn-primary" type="submit" value="${not empty produto ? 'Alterar' : 'Incluir'}">
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
