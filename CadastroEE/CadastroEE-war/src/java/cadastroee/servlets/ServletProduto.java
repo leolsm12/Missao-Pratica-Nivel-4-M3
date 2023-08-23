@@ -70,7 +70,6 @@ public class ServletProduto extends HttpServlet {
                 out.println("<html>");
                 out.println("<head>");
                 out.println("<title>Servlet ServletProduto</title>");
-                // Adicione o estilo CSS inline aqui
                 out.println("<style>");
                 out.println("ul { list-style: none; padding-left: 0; }");
                 out.println("</style>");
@@ -85,8 +84,6 @@ public class ServletProduto extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }
-        
-        
         processRequest(request, response);
     }
 
