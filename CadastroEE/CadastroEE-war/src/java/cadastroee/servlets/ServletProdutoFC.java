@@ -15,7 +15,6 @@ import jakarta.ejb.EJB;
 import cadastroee.controller.ProdutosFacadeLocal;
 import cadastroee.model.Produtos;
 import java.util.List;
-
 /**
  *
  * @author leosc
@@ -63,15 +62,13 @@ public class ServletProdutoFC extends HttpServlet {
             case "formAlterar":
                 int idAlterar = Integer.parseInt(request.getParameter("id"));
                 Produtos produtoAlterar = facade.find(idAlterar);
-                request.setAttribute("produto", produtoAlterar);
-                             
+                request.setAttribute("produto", produtoAlterar);            
                 destino = "ProdutoDados.jsp";
                 break;
             case "excluir":
                 int idExcluir = Integer.parseInt(request.getParameter("id"));
                 Produtos produtoExcluir = facade.find(idExcluir);
                 facade.remove(produtoExcluir);
-
                 List<Produtos> produtosExcluidos = facade.findAll();
                 request.setAttribute("produtos", produtosExcluidos);
                 destino = "ProdutoLista.jsp";
@@ -129,18 +126,18 @@ public class ServletProdutoFC extends HttpServlet {
                     String novaQuantidadeStr = request.getParameter("quantidade");
                     String novoPrecoStr = request.getParameter("preco");
 
-                    // Mantém os valores originais se os campos não forem alterados
-                    int novaQuantidade = (novaQuantidadeStr != null && !novaQuantidadeStr.isEmpty()) ? Integer.parseInt(novaQuantidadeStr) : produtoExistente.getQuantidade();
-                    float novoPreco = (novoPrecoStr != null && !novoPrecoStr.isEmpty()) ? Float.parseFloat(novoPrecoStr) : produtoExistente.getPrecoVenda();
+                    int novaQuantidade = 
+                            (novaQuantidadeStr != null && !novaQuantidadeStr.isEmpty())
+                            ? Integer.parseInt(novaQuantidadeStr) : produtoExistente.getQuantidade();
+                    float novoPreco = 
+                            (novoPrecoStr != null && !novoPrecoStr.isEmpty()) 
+                            ? Float.parseFloat(novoPrecoStr) : produtoExistente.getPrecoVenda();
 
-                    // Atualiza os dados do produto existente
                     produtoExistente.setNome(novoNome);
                     produtoExistente.setQuantidade(novaQuantidade);
                     produtoExistente.setPrecoVenda(novoPreco);
 
-                    // Atualiza o produto no banco de dados
                     facade.edit(produtoExistente);
-
                     produtos = facade.findAll();
                     request.setAttribute("produtos", produtos);
                 } else {
