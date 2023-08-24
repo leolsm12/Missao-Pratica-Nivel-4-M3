@@ -9,8 +9,6 @@ import java.util.Collection;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -30,10 +28,9 @@ import jakarta.persistence.Table;
     @NamedQuery(name = "Produtos.findByQuantidade", query = "SELECT p FROM Produtos p WHERE p.quantidade = :quantidade"),
     @NamedQuery(name = "Produtos.findByPrecoVenda", query = "SELECT p FROM Produtos p WHERE p.precoVenda = :precoVenda")})
 public class Produtos implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idProduto")
     private Integer idProduto;
@@ -41,12 +38,13 @@ public class Produtos implements Serializable {
     private String nome;
     @Column(name = "quantidade")
     private Integer quantidade;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)
+    //if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "precoVenda")
     private float precoVenda;
     @OneToMany(mappedBy = "idProduto")
     private Collection<Movimentos> movimentosCollection;
-
+    
     public Produtos() {
     }
 

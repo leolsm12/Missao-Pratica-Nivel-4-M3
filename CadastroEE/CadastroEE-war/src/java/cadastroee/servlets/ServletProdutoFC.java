@@ -23,9 +23,7 @@ import java.util.List;
 @WebServlet(name = "ServletProdutoFC", urlPatterns = {"/ServletProdutoFC"})
 public class ServletProdutoFC extends HttpServlet {
     @EJB
-    ProdutosFacadeLocal facade;
-    
-    
+    ProdutosFacadeLocal facade;   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,11 +34,8 @@ public class ServletProdutoFC extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-               
-        
+            throws ServletException, IOException {        
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -55,8 +50,7 @@ public class ServletProdutoFC extends HttpServlet {
             throws ServletException, IOException {
         String acao = request.getParameter("acao");
         String destino = null;
-        
-        
+
         switch (acao) {
             case "listar":
                 List<Produtos> produtos = facade.findAll();
@@ -100,35 +94,64 @@ public class ServletProdutoFC extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String acao = request.getParameter("acao");
+        List<Produtos> produtos = null;
 
         switch (acao) {
             case "incluir":
                 String nome = request.getParameter("nome");
                 int quantidade = Integer.parseInt(request.getParameter("quantidade"));
                 float preco = Float.parseFloat(request.getParameter("preco"));
-
+                produtos = facade.findAll();
+                int ultimoId = 0;              
+                Produtos ultimoProduto = produtos.get(produtos.size() - 1);
+                ultimoId = ultimoProduto.getIdProduto();                
+                int id = ultimoId + 1;
+                
                 Produtos novoProduto = new Produtos();
                 novoProduto.setNome(nome);
                 novoProduto.setQuantidade(quantidade);
                 novoProduto.setPrecoVenda(preco);
+                novoProduto.setIdProduto(id);
 
                 facade.create(novoProduto);
 
-                List<Produtos> produtos = facade.findAll();
+                produtos = facade.findAll();
                 request.setAttribute("produtos", produtos);
                 
                 break;
-                
-           
-        }
+            
+            case "alterar":
+                int idAlterar = Integer.parseInt(request.getParameter("id"));
+                Produtos produtoExistente = facade.find(idAlterar);
 
+                if (produtoExistente != null) {
+                    String novoNome = request.getParameter("nome");
+                    String novaQuantidadeStr = request.getParameter("quantidade");
+                    String novoPrecoStr = request.getParameter("preco");
+
+                    // Mantém os valores originais se os campos não forem alterados
+                    int novaQuantidade = (novaQuantidadeStr != null && !novaQuantidadeStr.isEmpty()) ? Integer.parseInt(novaQuantidadeStr) : produtoExistente.getQuantidade();
+                    float novoPreco = (novoPrecoStr != null && !novoPrecoStr.isEmpty()) ? Float.parseFloat(novoPrecoStr) : produtoExistente.getPrecoVenda();
+
+                    // Atualiza os dados do produto existente
+                    produtoExistente.setNome(novoNome);
+                    produtoExistente.setQuantidade(novaQuantidade);
+                    produtoExistente.setPrecoVenda(novoPreco);
+
+                    // Atualiza o produto no banco de dados
+                    facade.edit(produtoExistente);
+
+                    produtos = facade.findAll();
+                    request.setAttribute("produtos", produtos);
+                } else {
+                    produtos = facade.findAll();
+                    request.setAttribute("produtos", produtos);
+                }
+                break; 
+        }
         RequestDispatcher rd = request.getRequestDispatcher("ProdutoLista.jsp");
         rd.forward(request, response);
 }
-                  
-        
-    
-
     /**
      * Returns a short description of the servlet.
      *
@@ -138,5 +161,4 @@ public class ServletProdutoFC extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
